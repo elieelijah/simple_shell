@@ -106,6 +106,11 @@ int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
 
+int handle_cd_special_cases(char **args, char *old_pwd);
+void handle_cd_home(char *old_pwd);
+void handle_cd_print(char **args, char *pwd, const char *new_line, char *old_pwd, char *dir_info);
+int handle_error(char **args, int error_code);
+
 /* Builtin Helpers */
 char **_copyenv(void);
 void free_env(void);

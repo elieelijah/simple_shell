@@ -137,7 +137,9 @@ int custom_cd(char **args, char __attribute__((__unused__)) **front)
 	if (custom_setenv(dir_info, dir_info) == -1)
 		return (-1);
 
-	handle_cd_print(args, pwd, new_line, old_pwd, pwd, dir_info);
+	handle_cd_print(args, pwd, new_line, old_pwd, pwd);
+
+	return (0);
 }
 
 /**
