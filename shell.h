@@ -133,15 +133,17 @@ void free_alias_list(alias_t *head);
 list_t *add_node_end(list_t **head, char *dir);
 void free_list(list_t *head);
 
-void help_all(void);
-void help_alias(void);
-void help_cd(void);
-void help_exit(void);
+void display_all_commands(void);
+void display_alias_command(void);
+void display_cd_command(void);
+void display_exit_command(void);
+void display_help_command(void);
 void help_help(void);
 void help_env(void);
 void help_setenv(void);
 void help_unsetenv(void);
 void help_history(void);
+void display_message(const char *message)
 
 int proc_file_commands(char *file_path, int *exe_ret);
 #endif /* _SHELL_H */
