@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 #define END_OF_FILE -2
 #define EXIT -3
@@ -92,9 +93,14 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* Builtins */
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_exit(char **args, char **front);
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
+int custom_exit(char **args, char **front);
+int custom_cd(char **args, char __attribute__((__unused__)) **front);
+int custom_help(char **args, char __attribute__((__unused__)) **front);
+int custom_env(char **args, char **front);
+int custom_setenv(char **args, char **front);
+int custom_alias(char **args, char **front);
+int custom_unsetenv(char **args, char **front);
+int handle_error(char **args, int error_code);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
