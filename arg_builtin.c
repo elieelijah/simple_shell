@@ -74,7 +74,6 @@ int custom_exit(char **args, char **front)
 		return (handle_error(--args, 2));
 	args -= 1;
 	free_args(args, front);
-	free_env();
 	free_alias_list(aliases);
 	exit(num);
 }

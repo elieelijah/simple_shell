@@ -23,7 +23,7 @@ int main(int ac, char **av)
 		hist++;
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
-		read = _getline(&line, &bufsize, stdin);
+		read = custom_getline(&line, &bufsize, stdin);
 		if (read == END_OF_FILE)
 			break;
 		if (read == -1)
@@ -36,7 +36,6 @@ int main(int ac, char **av)
 	}
 
 	free(line);
-	free_env();
 	free_alias_list(aliases);
 	return (0);
 }

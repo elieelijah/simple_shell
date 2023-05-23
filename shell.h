@@ -61,9 +61,10 @@ typedef struct alias_s
 alias_t *aliases;
 
 /* Main Helpers */
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
+void *custom_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **_strtok(char *line, char *delim);
+void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b);
 char *get_location(char *command);
 list_t *get_path_dir(char *path);
 int execute(char **args, char **front);
@@ -112,9 +113,9 @@ void handle_cd_print(char **args, char *pwd, const char *new_line, char *old_pwd
 int handle_error(char **args, int error_code);
 
 /* Builtin Helpers */
-char **_copyenv(void);
-void free_env(void);
-char **_getenv(const char *var);
+char **copy_environment(void);
+void free_environment(void);
+char **get_environment_variable(const char *var);
 
 /* Error Handling */
 int create_error(char **args, int err);
