@@ -91,6 +91,9 @@ char *_strchr(char *s, char c);
 int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+int get_token_length(char *str, char *delim);
+int count_tokens(char *str, char *delim);
+char **tokenize_string(char *line, char *delim);
 
 /* Builtins */
 int (*get_builtin(char *command))(char **args, char **front);
