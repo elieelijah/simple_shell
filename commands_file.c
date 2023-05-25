@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 
 int cant_open(char *file_path);
 int proc_file_commands(char *file_path, int *exe_ret);
