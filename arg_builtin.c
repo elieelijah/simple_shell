@@ -154,11 +154,11 @@ int custom_help(char **args, char __attribute__((__unused__)) **front)
 	if (!args[0])
 		help_all();
 	else if (_strcmp(args[0], "alias") == 0)
-		help_alias();
+		shellby_alias();
 	else if (_strcmp(args[0], "cd") == 0)
 		help_cd();
 	else if (_strcmp(args[0], "exit") == 0)
-		help_exit();
+		help_env();
 	else if (_strcmp(args[0], "env") == 0)
 		help_env();
 	else if (_strcmp(args[0], "setenv") == 0)
