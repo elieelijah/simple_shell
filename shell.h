@@ -1,5 +1,5 @@
-#ifndef SHELL_H_
-#define SHELL_H_
+#ifndef _SHELL_H
+#define _SHELL_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <errno.h>
+#include <string.h>
 
 #define END_OF_FILE -2
 #define EXIT -3
@@ -60,9 +61,10 @@ typedef struct alias_s
 alias_t *aliases;
 
 /* Main Helpers */
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
+void *custom_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **_strtok(char *line, char *delim);
+void assign_lineptr(char **lineptr, size_t *n, char *buffer, size_t b);
 char *get_location(char *command);
 list_t *get_path_dir(char *path);
 int execute(char **args, char **front);
@@ -89,21 +91,34 @@ char *_strchr(char *s, char c);
 int _strspn(char *s, char *accept);
 int _strcmp(char *s1, char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+int get_token_length(char *str, char *delim);
+int count_tokens(char *str, char *delim);
+char **tokenize_string(char *line, char *delim);
 
 /* Builtins */
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_exit(char **args, char **front);
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
+int custom_exit(char **args, char **front);
+int custom_cd(char **args, char __attribute__((__unused__)) **front);
+int custom_help(char **args, char __attribute__((__unused__)) **front);
+int custom_env(char **args, char **front);
+int custom_setenv(char **args, char **front);
+int custom_alias(char **args, char **front);
+int custom_unsetenv(char **args, char **front);
+int handle_error(char **args, int error_code);
 int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
 int shellby_cd(char **args, char __attribute__((__unused__)) **front);
 int shellby_alias(char **args, char __attribute__((__unused__)) **front);
 int shellby_help(char **args, char __attribute__((__unused__)) **front);
 
+int handle_cd_special_cases(char **args, char *old_pwd);
+void handle_cd_home(char *old_pwd);
+void handle_cd_print(char **args, char *pwd, const char *new_line, char *old_pwd, char *dir_info);
+int handle_error(char **args, int error_code);
+
 /* Builtin Helpers */
-char **_copyenv(void);
-void free_env(void);
-char **_getenv(const char *var);
+char **copy_environment(void);
+void free_environment(void);
+char **get_environment_variable(const char *var);
 
 /* Error Handling */
 int create_error(char **args, int err);
@@ -121,10 +136,11 @@ void free_alias_list(alias_t *head);
 list_t *add_node_end(list_t **head, char *dir);
 void free_list(list_t *head);
 
-void help_all(void);
-void help_alias(void);
-void help_cd(void);
-void help_exit(void);
+void display_all_commands(void);
+void display_alias_command(void);
+void display_cd_command(void);
+void display_exit_command(void);
+void display_help_command(void);
 void help_help(void);
 void help_env(void);
 void help_setenv(void);
@@ -132,4 +148,4 @@ void help_unsetenv(void);
 void help_history(void);
 
 int proc_file_commands(char *file_path, int *exe_ret);
-#endif /* SHELL_H_ */
+#endif /* _SHELL_H */

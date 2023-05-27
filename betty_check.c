@@ -1,51 +1,73 @@
 #include "shell.h"
 
 /**
- * main - Entry point of the simple shell program
- * @argc: The number of arguments passed to the program
- * @argv: An array of strings containing the arguments
- * @envp: An array of strings containing the environment variables
- * Return: 0 on success
+ * main - Entry point for the custom shell program.
+ *
+ * Return: Always 0.
  */
-int main(int argc, char *argv[], char *envp[])
+int main(int ac, char **av)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
 	ssize_t read;
-	char **args, **front;
-	int exe_ret = 0;
 
-	(void)argc;
-	name = argv[0];
-	environ = envp;
+	if (ac < 1)
+		return (1);
+
+	name = get_location(av[0]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 
 	while (1)
 	{
+		hist++;
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
-		read = _getline(&line, &bufsize, stdin);
-
+		read = custom_getline(&line, &bufsize, stdin);
 		if (read == END_OF_FILE)
 			break;
-		handle_line(&line, read);
-		args = _strtok(line, " \t\r\n");
-		front = args;
-		variable_replacement(args, &exe_ret);
-		if (call_args(args, &front, &exe_ret) == EXIT)
+		if (read == -1)
 		{
-			free_args(args, front);
 			free(line);
-			free_env();
-			exit(exe_ret);
+			line = NULL;
+			continue;
 		}
-		free_args(args, front);
-		free(line);
-		hist++;
+		handle_line(&line, read);
 	}
-	free_env();
-	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "\n", 1);
-	return (exe_ret);
+
+	free(line);
+	free_alias_list(aliases);
+	return (0);
 }
+
+/**
+ * handle_line - Handles a line of input from the user.
+ * @line: Pointer to the line of input.
+ * @read: Number of characters read.
+ */
+void handle_line(char **line, ssize_t read)
+{
+	int exe_ret = 0;
+	char **args = NULL;
+	char **front = NULL;
+
+	if ((*line)[read - 1] == '\n')
+		(*line)[read - 1] = '\0';
+
+	args = _strtok(*line, " \t\n");
+	if (args == NULL)
+	{
+		free(*line);
+		return;
+	}
+
+	variable_replacement(args, &exe_ret);
+	front = args;
+	if (exe_ret != EXIT)
+		exe_ret = handle_args(&exe_ret);
+
+	free_args(args, front);
+	free(*line);
+	*line = NULL;
+}
+
