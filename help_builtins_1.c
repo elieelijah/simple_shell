@@ -1,15 +1,15 @@
 #include "shell.h"
 
-void display_all_commands(void);
-void display_alias_command(void);
-void display_cd_command(void);
-void display_exit_command(void);
-void display_help_command(void);
+void help_all(void);
+void help_alias(void);
+void help_cd(void);
+void help_exit(void);
+void help_help(void);
 
 /**
- * display_all_commands - Displays all possible builtin commands.
+ * help_all - Displays all possible builtin shellby commands.
  */
-void display_all_commands(void)
+void help_all(void)
 {
 	char *msg = "Shellby\nThese shell commands are defined internally.\n";
 
@@ -29,9 +29,9 @@ void display_all_commands(void)
 }
 
 /**
- * display_alias_command - Displays information on the builtin command 'alias'.
+ * help_alias - Displays information on the shellby builtin command 'alias'.
  */
-void display_alias_command(void)
+void help_alias(void)
 {
 	char *msg = "alias: alias [NAME[='VALUE'] ...]\n\tHandles aliases.\n";
 
@@ -51,9 +51,9 @@ void display_alias_command(void)
 }
 
 /**
- * display_cd_command - Displays information on the builtin command 'cd'.
+ * help_cd - Displays information on the shellby builtin command 'cd'.
  */
-void display_cd_command(void)
+void help_cd(void)
 {
 	char *msg = "cd: cd [DIRECTORY]\n\tChanges the current directory of the";
 
@@ -71,9 +71,9 @@ void display_cd_command(void)
 }
 
 /**
- * display_exit_command - Displays information on the builtin command 'exit'.
+ * help_exit - Displays information on the shellby builtin command 'exit'.
  */
-void display_exit_command(void)
+void help_exit(void)
 {
 	char *msg = "exit: exit [STATUS]\n\tExits the shell.\n\n\tThe ";
 
@@ -87,9 +87,9 @@ void display_exit_command(void)
 }
 
 /**
- * display_help_command - Displays information on the builtin command 'help'.
+ * help_help - Displays information on the shellby builtin command 'help'.
  */
-void display_help_command(void)
+void help_help(void)
 {
 	char *msg = "help: help\n\tSee all possible Shellby builtin commands.\n";
 
@@ -99,4 +99,3 @@ void display_help_command(void)
 	msg = "builtin command.\n";
 	write(STDOUT_FILENO, msg, _strlen(msg));
 }
-
